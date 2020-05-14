@@ -1,7 +1,11 @@
 package cn.huanhu.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 /**
@@ -9,10 +13,12 @@ import java.io.Serializable;
  * @author m
  * @since 2020-05-11
  */
+@Entity
 @Data
 public class BookStore implements Serializable {
     private static final long serialVersionUID = 738266294681995275L;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
     private String bookName;

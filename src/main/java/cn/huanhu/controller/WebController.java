@@ -24,4 +24,6 @@ public class WebController {
         logger.info(model.toString());
         return "hello";
     }
+
+
 }

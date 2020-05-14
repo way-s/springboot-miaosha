@@ -8,7 +8,7 @@ import cn.huanhu.entity.BookStore;
  * (BookStore)表服务接口
  *
  * @author makejava
- * @since 2020-05-11 10:14:26
+ * @since 2020-05-11
  */
 public interface BookStoreService {
 

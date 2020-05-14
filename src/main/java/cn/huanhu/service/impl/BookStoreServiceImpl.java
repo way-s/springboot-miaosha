@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * (BookStore)表服务实现类
  *
  * @author makejava
- * @since 2020-05-11 10:14:26
+ * @since 2020-05-11
  */
 @Service("bookStoreService")
 public class BookStoreServiceImpl implements BookStoreService {
@@ -21,7 +21,6 @@ public class BookStoreServiceImpl implements BookStoreService {
 
     /**
      * 通过ID查询单条数据
-     *
      * @param id 主键
      * @return 实例对象
      */
