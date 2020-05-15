@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @description RedisServiceImpl
  * @date 2020/5/11
  */
-@Resource
+@Service
 public class RedisServiceImpl  {
 
     private static final Logger logger= LoggerFactory.getLogger(RedisServiceImpl.class);
