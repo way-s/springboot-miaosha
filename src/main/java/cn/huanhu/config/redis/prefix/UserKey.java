@@ -16,6 +16,6 @@ public class UserKey extends BasePrefix{
         super(expireSeconds, prefix);
     }
 
-    public static UserKey getById=new UserKey("userId");
+    public static UserKey getById=new UserKey("getById");
     public static UserKey getByName=new UserKey("userName");
 }

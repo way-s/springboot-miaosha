@@ -1,6 +1,10 @@
 package cn.huanhu.entity.vo;
 
+import cn.huanhu.config.validate.IsMobile;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author m
@@ -11,8 +15,12 @@ import lombok.Data;
 @Data
 public class LoginVo {
 
+    @NotNull
+    @IsMobile
     private String mobile;
 
+    @NotNull
+    @Length
     private String password;
 
     public String getMobile() {

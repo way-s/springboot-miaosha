@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "redis")
+@ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
     private String host;
@@ -21,8 +21,8 @@ public class RedisConfig {
     private String password;
     private int database;
     private int poolMaxActive;
-    private int poolMaxIdel;
-    private int poolMinIdel;
+    private int poolMaxIdle;
+    private int poolMinIdle;
     private int poolMaxWait;
 
     public String getHost() {
@@ -73,20 +73,12 @@ public class RedisConfig {
         this.poolMaxActive = poolMaxActive;
     }
 
-    public int getPoolMaxIdel() {
-        return poolMaxIdel;
+    public int getPoolMaxIdle() {
+        return poolMaxIdle;
     }
 
-    public void setPoolMaxIdel(int poolMaxIdel) {
-        this.poolMaxIdel = poolMaxIdel;
-    }
-
-    public int getPoolMinIdel() {
-        return poolMinIdel;
-    }
-
-    public void setPoolMinIdel(int poolMinIdel) {
-        this.poolMinIdel = poolMinIdel;
+    public void setPoolMaxIdle(int poolMaxIdle) {
+        this.poolMaxIdle = poolMaxIdle;
     }
 
     public int getPoolMaxWait() {
@@ -95,5 +87,13 @@ public class RedisConfig {
 
     public void setPoolMaxWait(int poolMaxWait) {
         this.poolMaxWait = poolMaxWait;
+    }
+
+    public int getPoolMinIdle() {
+        return poolMinIdle;
+    }
+
+    public void setPoolMinIdle(int poolMinIdle) {
+        this.poolMinIdle = poolMinIdle;
     }
 }

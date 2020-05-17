@@ -22,7 +22,7 @@ public class Md5Utils {
      * @param inputPass 用户输入的密码
      * @return
      */
-    public static String inputPassToFormpass(String inputPass){
+    public static String inputPassToFormPass(String inputPass){
         String str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
         String result = md5(str);
         return result;
@@ -34,10 +34,9 @@ public class Md5Utils {
      * @param salt
      * @return
      */
-    public static String formpassToDBpass(String formPass,String salt){
+    public static String formPassToDBPass(String formPass, String salt){
         String str = "" + salt.charAt(0) + salt.charAt(2) + formPass + salt.charAt(5) + salt.charAt(4);
-        String result = md5(str);
-        return result;
+        return md5(str);
     }
 
     /**
@@ -46,13 +45,13 @@ public class Md5Utils {
      * @param salt
      * @return
      */
-    public static String inputpassToDBpass(String inputPass ,String salt){
-        String formPass = inputPassToFormpass(inputPass);
-        String dbPass = formpassToDBpass(formPass, salt);
+    public static String inputPassToDBPass(String inputPass , String salt){
+        String formPass = inputPassToFormPass(inputPass);
+        String dbPass = formPassToDBPass(formPass, salt);
         return dbPass;
     }
 
     public static void main(String[] args) {
-        System.out.println(inputpassToDBpass("123456", salt));
+        System.out.println(inputPassToDBPass("123456", salt));
     }
 }

@@ -1,20 +1,32 @@
 package cn.huanhu.service;
 
+import cn.huanhu.dao.UserDao;
 import cn.huanhu.entity.User;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
- * @ClassName: UserService
- * @Description: UserService
- * @author: m
- * @Date: 2020/5/12
+ * @author m
+ * @className UserService
+ * @description UserService
+ * @date 2020/5/12
  */
-public interface UserService {
+@Service
+public class UserService {
+
+    @Resource
+    private UserDao userDao;
 
     /**
      * 查询单条数据
      * @param id id
      * @return user
      */
-    User queryById(Integer id);
+    public User queryById(Integer id) {
+        return userDao.queryById(id);
+    }
+
+
 
 }

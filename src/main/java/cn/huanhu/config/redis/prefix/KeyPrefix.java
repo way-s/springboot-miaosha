@@ -23,5 +23,5 @@ public interface KeyPrefix {
      * getPrefix
      * @return string
      */
-    public String getPreFix();
+    public String getPrefix();
 }
