@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
-    private String host;
+    private String host = "127.0.0.1";
     private int port;
     private int timeout;
     private String password;
-    private int database;
+    private int database = 0;
     private int poolMaxActive;
     private int poolMaxIdle;
     private int poolMinIdle;

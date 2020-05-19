@@ -1,16 +1,19 @@
 package cn.huanhu.controller;
 
+import cn.huanhu.config.exception.GlobalException;
 import cn.huanhu.entity.vo.LoginVo;
 import cn.huanhu.service.MiaoshaUserService;
 import cn.huanhu.utils.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * @author m
@@ -18,6 +21,7 @@ import javax.annotation.Resource;
  * @description LoginController
  * @date 2020/5/13
  */
+@CrossOrigin
 @Controller
 @RequestMapping(value = "login/")
 public class LoginController {
@@ -27,33 +31,18 @@ public class LoginController {
     @Resource
     private MiaoshaUserService miaoshaUserService;
 
-    @GetMapping("toLogin")
+    @RequestMapping("toLogin")
     public String toLoginPage(){
         return "login";
     }
 
-    @GetMapping("doLogin")
+    @RequestMapping(value = "doLogin")
     @ResponseBody
-    public Result<String> doLogin(LoginVo loginVo){
+    public Result<String> doLogin(HttpServletResponse response, @Valid LoginVo loginVo) throws GlobalException {
         logger.info(loginVo.toString());
-
-        //参数校验
-//        String mobile = loginVo.getMobile();
-//        String passInput = loginVo.getPassword();
-//        if(StringUtils.isEmpty(passInput)){
-//            return Result.error(CodeMsg.PASSWPRD_EMPTY);
-//        }
-//        if(StringUtils.isEmpty(mobile)){
-//            return Result.error(CodeMsg.MOBILE_EMPTY);
-//        }
-//        if(!ValidatorUtil.isMobile(mobile)){
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
-
-//        //登录
-//        String token = (String) miaoshaUserService.doLogin(loginVo);
-//        return Result.success(token);
-        return null;
+        //登录
+        String token = miaoshaUserService.doLogin(response,loginVo);
+        return Result.success(token);
     }
 
 
