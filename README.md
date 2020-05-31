@@ -3,8 +3,8 @@
 ### 新增加了登录注册页
 ` 更新至3-5商品详情，新增新的登录注册页和短信验证码登录功能。 `
 ### 数据库
-` 
-CREATE TABLE miaosha_user(
+
+``` CREATE TABLE miaosha_user(
 id bigint (20) NOT NULL COMMENT '用户ID,手机号码',
 nickname varchar (255) NOT NULL,
 passwor varchar (32) DEFAULT NULL COMMENT 'MDS(MDS(pass明文+固定salt) + salt)',
@@ -58,7 +58,4 @@ user_id bigint(20) DEFAULT NULL COMMENT'用户ID',
 order_id bigint(20) DEFAULT NULL COMMENT'订单ID',
 goods_id bigint(20) DEFAULT NULL COMMENT'商品ID',
 PRIMARY KEY (id)
-)ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-
-
-`
+)ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4; ```
