@@ -8,6 +8,7 @@ class MiaoshaApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

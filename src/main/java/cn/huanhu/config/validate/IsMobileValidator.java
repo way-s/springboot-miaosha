@@ -18,7 +18,7 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile, String> 
 
     @Override
     public void initialize(IsMobile constraintAnnotation) {
-        constraintAnnotation.required();
+        require = constraintAnnotation.required();
     }
 
     @Override

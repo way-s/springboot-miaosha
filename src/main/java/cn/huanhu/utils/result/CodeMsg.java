@@ -22,8 +22,14 @@ public class CodeMsg {
     public static CodeMsg PASSWPRD_EMPTY = new CodeMsg(500202, "密码不能为空");
     public static CodeMsg MOBILE_EMPTY = new CodeMsg(500203, "手机号不能为空");
     public static CodeMsg MOBILE_ERROR = new CodeMsg(500204, "请输入正确的手机号");
-    public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500205, "用户不存在");
+    public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500205, "用户不存在，请先注册");
+
+
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500206, "密码错误");
+    public static CodeMsg MoBILE_ALREADY_EXIST = new CodeMsg(500207,"用户已经存在");
+    public static CodeMsg NEW_CODE_ERROR = new CodeMsg(500208,"验证码错误");
+    public static CodeMsg REGISTER_ERROR = new CodeMsg(500209,"注册异常，请重新注册");
+    public static CodeMsg SEND_MESSAGE_ERROR = new CodeMsg(5002010,"发送失败");
     //商品模块 5003XX
 
     //订单模块 5004XX

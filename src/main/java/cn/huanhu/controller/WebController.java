@@ -13,10 +13,14 @@ import java.util.logging.Logger;
  * @date 2020/5/11
  */
 @Controller
-@RequestMapping("web/")
 public class WebController {
 
     private static final Logger logger= Logger.getLogger(String.valueOf(WebController.class));
+
+    @RequestMapping("/")
+    public String index(){
+        return "index";
+    }
 
     @RequestMapping("model")
     public String testModel(Model model){

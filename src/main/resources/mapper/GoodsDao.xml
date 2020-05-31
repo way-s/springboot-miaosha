@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.huanhu.dao.GoodsDao">
+
+    <resultMap type="cn.huanhu.entity.Goods" id="GoodsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="goodsTitle" column="goods_title" jdbcType="VARCHAR"/>
+        <result property="goodsImg" column="goods_img" jdbcType="VARCHAR"/>
+        <result property="goodsDetail" column="goods_detail" jdbcType="OTHER"/>
+        <result property="goodsPrice" column="goods_price" jdbcType="NUMERIC"/>
+        <result property="goodsStock" column="goods_stock" jdbcType="INTEGER"/>
+    </resultMap>
+    <update id="reduceStock">
+        update miaosha_goods
+        set stock_count = stock_count - 1
+        where goods_id=#{goodsId} and stock_count > 0
+    </update>
+
+    <!--查询单个-->
+     <select id="queryById" resultMap="GoodsMap">
+        select
+          id, goods_name, goods_title, goods_img, goods_detail, goods_price, goods_stock
+        from book.goods
+        where id = #{id}
+    </select>
+    <select id="listGoodsVo" resultType="cn.huanhu.entity.vo.GoodsVO">
+        select
+            g.*,mg.miaosha_price,mg.stock_count,mg.start_date,mg.end_date
+        from miaosha_goods mg left join goods g on mg.goods_id = g.id
+    </select>
+    <select id="getGoodsVoByGoodsId" resultType="cn.huanhu.entity.vo.GoodsVO">
+        select
+            g.*,mg.miaosha_price,mg.stock_count,mg.start_date,mg.end_date
+        from miaosha_goods mg left join goods g on mg.goods_id = g.id
+        where g.id= #{id}
+    </select>
+
+
+
+</mapper>

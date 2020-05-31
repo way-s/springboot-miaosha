@@ -1,0 +1,372 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>乐gou商城</title>
+    <!--css-links-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+    <!--//css-links-->
+    <!-- online-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Playball&subset=latin-ext" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Cabin:400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!--//online-fonts -->
+    <!--meta-tags-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords"
+          content="Simple Statistics Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!--meta-tags-->
+
+</head>
+<body>
+<h1>乐gou商城</h1>
+<!-- main-section -->
+<div class="head agile">
+    <div class="logo">
+        <div class="logo-top wel">
+            <img src="images/gou.jpg" alt="image"/>
+            <h2>Welcome</h2>
+        </div>
+        <div class="logo-bottom w3layouts">
+            <div class="sky-form">
+                <label class="radio"><input type="radio" name="radio" checked="checked"><i></i>轻松乐购</label>
+                <label class="radio"><input type="radio" name="radio"><i></i>就在乐gou</label>
+            </div>
+        </div>
+    </div>
+    <div class="login w3">
+        <div class="sap_tabs">
+            <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                <ul class="resp-tabs-list">
+                    <li class="resp-tab-item"><span>码密码登录</span></li>
+                    <li class="resp-tab-item"><label>|</label><span>验证码登录</span></li>
+                    <li class="resp-tab-item"><label>|</label><span>注册</span></li>
+                </ul>
+                <div class="resp-tabs-container">
+                    <div class="tab-1 resp-tab-content">
+                        <div class="login-top agileinfo">
+                            <form action="#" method="post">
+                                <input type="text" id="mobile" class="email" placeholder="手机号码" value="17854229103"
+                                       required="true" minlength="11" maxlength="11"/>
+                                <input type="password" id="password" class="password" placeholder="密码" value="123456"
+                                       required="true" minlength="6" maxlength="16"/>
+                                <div class="bottom-w3l">
+                                    <div class="button">
+                                        <input type="button" id="loginSubmit" name="login" value="登 录"/>
+                                    </div>
+                                    <div class="login-bottom login-bottom1">
+                                        <ul>
+                                            <div class="button">
+                                                <input type="button" name="qqLogin" id="qqL" value="QQ登录"/>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-1 resp-tab-content">
+                        <div class="login-top agileits">
+                            <form action="#" method="post">
+                                <input type="text" id="phone" class="name active" placeholder="手机号码" value="17854229103"
+                                       required="true" minlength="11" maxlength="11"/>
+                                <label>
+                                    <input type="password" id="VerCode" class="password" placeholder="验证码"/>
+                                    <input type="button" id="getCode" value="获取验证码"/>
+                                </label>
+                                <div class="bottom-w3l">
+                                    <div class="button sub1">
+                                      <a href="/qqLogin" ><input type="button" id="PL" name="login" value="登 录"/></a>
+                                    </div>
+                                    <div class="login-bottom agile">
+                                        <ul>
+                                            <div class="button">
+                                                <input type="button" name="qqLogin" id="qqLT" value="QQ登录"/>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-1 resp-tab-content">
+                        <div class="login-top agileits">
+                            <form action="#" method="post">
+                                <input type="text" class="name active" id="phone2" placeholder="手机号码" required="true"
+                                       minlength="11" maxlength="11"/>
+                                <input type="text" class="name active" id="nickname" placeholder="昵称" required="true"
+                                       minlength="1" maxlength="8"/>
+                                <input type="password" class="password" id="pass1" placeholder="密码" required="true"
+                                       minlength="6" maxlength="16"/>
+                                <input type="password" class="password" id="pass2" placeholder="确认密码" required="true"
+                                       minlength="6" maxlength="16"/>
+                                <div class="bottom-w3l">
+                                    <div class="button sub1">
+                                        <input type="button" name="login" value="注册" id="register"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- //main-section -->
+
+<!-- copyright -->
+<div class="footer agile-w3l">
+    <p>页面来自W3layouts</p>
+</div>
+<!-- //copyright -->
+
+
+<!--script-->
+<!-- jquery -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!-- jquery-validator -->
+<!--<script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>-->
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}">
+
+</script>
+<!-- md5.js -->
+<script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{js/easyResponsiveTabs.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#horizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true   // 100% fit in a container
+        });
+
+        $('#loginSubmit').click(function () {
+            doLogins();
+        });
+        $('#register').click(function () {
+            doRegister();
+        });
+
+        $('#getCode').click(function () {
+            doCode();
+        });
+
+        $('#PL').click(function () {
+            doPL();
+        });
+
+        $('#qqL').click(function () {
+
+        });
+        $('#qqLT').click(function () {
+
+        });
+    });
+
+    function doRegister() {
+        const nickname = $("#nickname").val();
+        const inputPass1 = $("#pass1").val();
+        const inputPass2 = $("#pass2").val();
+        const mobile = $("#phone2").val();
+        if (mobile === "" || inputPass1 === "" || inputPass2 === "" || nickname === "") {
+            layer.msg("请填写完整信息！");
+            return false;
+        } else if (mobile !== "" || inputPass1 !== null || inputPass2 !== "" || nickname !== "") {
+            if (!isPhoneFun(mobile)) {
+                layer.msg("手机号格式错误");
+                return false;
+            } else if (inputPass1 !== inputPass2) {
+                layer.msg("两次密码不一致");
+                return false;
+            }
+        }
+        const str = "" + g_passsword_salt.charAt(0) + g_passsword_salt.charAt(2) + inputPass1 + g_passsword_salt.charAt(5) + g_passsword_salt.charAt(4);
+        const password = md5(str);
+        $.ajax({
+            url: "/login/doRegister",
+            type: "POST",
+            data: {
+                id: mobile,
+                password: password,
+                nickname: nickname
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code === 0) {
+                    layer.msg("注册成功");
+                    // window.location.href = "/";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("error！");
+                layer.closeAll();
+            }
+        })
+    }
+
+    function doCode() {
+        const mobile = $("#phone").val();
+        if (mobile === "") {
+            layer.msg("请填写手机号！");
+            return false;
+        } else if (mobile !== "") {
+            if (!isPhoneFun(mobile)) {
+                layer.msg("手机号格式错误");
+                return false;
+            }
+        }
+        $.ajax({
+            url: "/login/doSendC",
+            type: "POST",
+            data: {
+                mobile: mobile,
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code === 0) {
+                    layer.msg("发送成功");
+                    // window.location.href = "/";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function (data) {
+                layer.closeAll();
+            }
+        })
+        Countdown($("#getCode"));//开始倒计时
+    }
+
+    function doPL() {
+        const password = $("#VerCode").val();
+        const mobile = $("#phone").val();
+        if (mobile === "" || password === "") {
+            layer.msg("手机号和验证码不能为空！");
+            return false;
+        } else if (mobile !== "") {
+            if (!isPhoneFun(mobile)) {
+                layer.msg("手机号格式错误");
+                return false;
+            }
+        }
+        $.ajax({
+            url: "/login/do/check",
+            type: "POST",
+            data: {
+                mobile: mobile,
+                password: password
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code === 0) {
+                    layer.msg("登录成功");
+                    window.location.href = "/goods/toList";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("登录失败");
+                layer.closeAll();
+            }
+        })
+    }
+
+
+    function doLogins() {
+        const inputPass = $("#password").val();
+        const mobile = $("#mobile").val();
+        // alert("p:" + inputPass + "\t" + "m:" + mobile);
+        if (mobile === "" || inputPass === "") {
+            layer.msg("手机号和密码不能为空！");
+            return false;
+        } else if (mobile !== "" || inputPass !== null) {
+            if (!isPhoneFun(mobile)) {
+                layer.msg("手机号格式错误");
+                return false;
+            }
+        }
+        g_showLoading("加载中...");
+        const str = "" + g_passsword_salt.charAt(0) + g_passsword_salt.charAt(2) + inputPass + g_passsword_salt.charAt(5) + g_passsword_salt.charAt(4);
+        const password = md5(str);
+        // alert("p:" + password + "\t" + "m:" + mobile);
+
+        $.ajax({
+            url: "/login/doLogin",
+            type: "POST",
+            data: {
+                mobile: mobile,
+                password: password
+            },
+            success: function (data) {
+                layer.closeAll();
+                console.log(data);
+                if (data.code === 0) {
+                    layer.msg("登录成功");
+                    window.location.href = "/goods/toList";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("error！");
+                layer.closeAll();
+            }
+        })
+    }
+
+
+    //判断是否为手机号的正则表达式
+    function isPhoneFun(phone) {
+        const myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+        if (!myreg.test(phone)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    let setTime = 5;
+
+    function Countdown(obj) {
+        if (setTime === 0) {
+            obj.prop('disabled', false);
+            obj.val("获取验证码");
+            setTime = 5;
+        } else {
+            setTime--;
+            obj.prop('disabled', true);
+            obj.val(setTime + "s后重新发送");
+            setTimeout(function () {
+                Countdown(obj)
+            }, 1000); //每1000毫秒执行一次
+        }
+    }
+</script>
+<!--script-->
+
+</body>
+</html>

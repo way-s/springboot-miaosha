@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
     <title>登录</title>
 
@@ -10,8 +11,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
     <!-- jquery-validator -->
-    <!--        <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>-->
-    <!--        <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>-->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
     <!-- layer -->
     <script type="text/javascript" th:src="@{/layer/layer.js}">
 
@@ -51,10 +52,10 @@
 
     <div class="row" style="margin-top:40px;">
         <div class="col-md-6">
-            <button class="btn btn-primary btn-block" type="reset" onclick="reset()">重置</button>
+            <button class="btn btn-primary btn-block" type="reset" value="重置" >重置</button>
         </div>
         <div class="col-md-6">
-            <button class="btn btn-primary btn-block" id="loginSubmit" type="submit" onclick="login()">登录</button>
+            <button class="btn btn-primary btn-block" id="loginSubmit" type="button" value="登录">登录</button>
         </div>
     </div>
 
@@ -68,9 +69,9 @@
         g_showLoading("加载中...");
         const str = "" + g_passsword_salt.charAt(0) + g_passsword_salt.charAt(2) + inputPass + g_passsword_salt.charAt(5) + g_passsword_salt.charAt(4);
         const password = md5(str);
-        alert("p:" + password + "\t" + "m:" + mobile);
+        // alert("p:" + password + "\t" + "m:" + mobile);
         $.ajax({
-            url: "http://127.0.0.1:8000/login/doLogin",
+            url: "/login/doLogin",
             type: "POST",
             data: {
                 mobile: mobile,
@@ -79,43 +80,24 @@
             success: function (data) {
                 layer.closeAll();
                 console.log(data);
-                window.location.href = "http://127.0.0.1:8000/goods/toList";
-                // if (data.code === 0) {
-                //     layer.msg("登录成功");
-                //     // alert("登录成功！")
-                //     window.location.href = "http://127.0.0.1:8000/goods/toList";
-                // } else {
-                //     layer.msg(data.msg);
-                // }
+                if (data.code === 0) {
+                    layer.msg("登录成功");
+                    // alert("登录成功！")
+                    window.location.href = "/goods/toList";
+                } else {
+                    layer.msg(data.msg);
+                }
             },
             error: function (data) {
                 alert("error！");
                 layer.closeAll();
             }
         })
-
     }
 
     $(document).ready(function () {
-        $('#loginForm').click(function () {
+        $('#loginSubmit').click(function () {
             doLogins();
-
-            // const xhr = new XMLHttpRequest();
-            // xhr.open("post", 'http://127.0.0.1:8000/login/doLogin?mobile=' + mobile + "&" + "password=" + password);
-            // xhr.send();
-            // xhr.onload = function () {
-            //     if (xhr.readyState === 4 && xhr.status === 200) {
-            //         layer.msg("登录成功");
-            //         layer.closeAll();
-            //         // console.log(data);
-            //         alert("发送成功！");
-            //         // window.location.href="/goods/toList";
-            //     } else {
-            //         layer.msg(data.msg);
-            //         layer.closeAll();
-            //         // alert("发送错误，请重试！")
-            //     }
-            // };
         })
     })
 

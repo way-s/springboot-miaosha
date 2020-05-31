@@ -19,7 +19,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     UserArgumentResolver userArgumentResolver;
 
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(userArgumentResolver);

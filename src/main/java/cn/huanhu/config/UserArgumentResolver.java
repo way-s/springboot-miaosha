@@ -2,6 +2,8 @@ package cn.huanhu.config;
 
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.service.MiaoshaUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserArgumentResolver.class);
+
     @Autowired
     private MiaoshaUserService userService;
 
@@ -39,17 +43,20 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer,
+    public Object resolveArgument(MethodParameter Parameter, ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
         String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
-        String cookieToken = getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
+        String cookieToken = getCookieValue(request,MiaoshaUserService.COOKIE_NAME_TOKEN);
+
         if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
+//            logger.info("cookieToken:"+cookieToken+"\t"+"paramToken:"+paramToken);
             return null;
         }
         String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+//        logger.info("token:"+token+"\n"+"cookieToken:"+cookieToken+"\t"+"paramToken:"+paramToken);
         return userService.getByToken(response,token);
 
     }
@@ -63,6 +70,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     private String getCookieValue(HttpServletRequest request, String cookieNameToken) {
         Cookie[] cookies = request.getCookies();
         if(cookies == null || cookies.length <= 0){
+            logger.info("getCookieValue");
             return null;
         }
         for(Cookie cookie : cookies){

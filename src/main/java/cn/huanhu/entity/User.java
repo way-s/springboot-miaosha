@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * (User)实体类
  *
- * @author makejava
+ * @author m
  * @since 2020-05-12
  */
 @Entity

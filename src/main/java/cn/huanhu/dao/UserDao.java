@@ -17,4 +17,5 @@ public interface UserDao {
      * @return user
      */
     User queryById(Integer id);
+
 }

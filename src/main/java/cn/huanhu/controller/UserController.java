@@ -60,7 +60,6 @@ public class UserController {
         user.setName("iqoo");
         user.setEmail("WWW.iqoo.com");
         boolean key2 = redisService.set(UserKey.getById,"8",user);
-//        String user = redisService.get("trump", String.class);
         logger.info(user.toString());
         return Result.success(true);
     }

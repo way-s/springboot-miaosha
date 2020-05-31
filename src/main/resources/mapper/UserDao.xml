@@ -8,6 +8,7 @@
         <result property="name" column="name" jdbcType="VARCHAR"/>
     </resultMap>
 
+
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
