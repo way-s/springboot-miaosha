@@ -62,3 +62,6 @@ order_id bigint(20) DEFAULT NULL COMMENT'订单ID',
 goods_id bigint(20) DEFAULT NULL COMMENT'商品ID',
 PRIMARY KEY (id)
 )ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4; 
+
+insert into goods values (2,'小米10pro','小米10Pro手机骁龙865官方正品旗舰手机5G全网通小米10Pro尊享官网10青春直降','/img/xiaomi10pro.png','小米10Pro5g手机骁龙865处理器5G手机拍照小米官方旗舰店官网正品米10 8+256',4999,16);
+
