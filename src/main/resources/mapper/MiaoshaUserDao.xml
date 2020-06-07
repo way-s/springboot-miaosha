@@ -12,6 +12,11 @@
         <result property="lastLoginDate" column="last_login_date" jdbcType="TIMESTAMP"/>
         <result property="loginCount" column="login_count" jdbcType="INTEGER"/>
     </resultMap>
+    <update id="update">
+        update miaosha_user
+        set password = #{password}
+        where id = #{id};
+    </update>
 
     <!--查询单个-->
     <select id="getById" resultMap="MiaoshaUserMap">

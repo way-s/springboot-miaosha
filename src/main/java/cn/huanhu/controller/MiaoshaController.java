@@ -1,6 +1,5 @@
 package cn.huanhu.controller;
 
-import cn.huanhu.entity.MiaoshaOrder;
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.entity.OrderInfo;
 import cn.huanhu.entity.vo.GoodsVO;
@@ -9,6 +8,9 @@ import cn.huanhu.service.MiaoshaService;
 import cn.huanhu.service.OrderService;
 import cn.huanhu.service.RedisService;
 import cn.huanhu.utils.result.CodeMsg;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Controller
+@Api(value = "秒杀接口")
 @RequestMapping(value = "miaosha/")
 public class MiaoshaController {
 
-    private static final Logger logger = LoggerFactory.getLogger(GoodsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MiaoshaController.class);
 
     @Autowired
     private RedisService redisService;
@@ -42,6 +45,15 @@ public class MiaoshaController {
     @Autowired
     private MiaoshaService miaoshaService;
 
+    /**
+     * 秒杀
+     * @param model
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @ApiOperation(httpMethod = "POST",value = "秒杀",notes = "立即秒杀")
+    @ApiImplicitParam(name = "id",value = "商品id",required = true ,dataType = "Long")
     @RequestMapping("do_miaosha")
     public String doSha(Model model, MiaoshaUser user,
                         @RequestParam("goodsId") long goodsId) {
@@ -57,16 +69,18 @@ public class MiaoshaController {
             return "miaosha_fail";
         }
         //判断是否已经秒杀到了
-        MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(user.getId(), goodsId);
+        OrderInfo order = orderService.getMiaoshaOrderByUserIdGoodsId(user.getId(), goodsId);
         if (order != null) {
             model.addAttribute("errmsg", CodeMsg.MIAOSHA_REPET.getMsg());
             return "miaosha_fail";
         }
         //减少库存 下订单 写入秒杀订单
         OrderInfo orderInfo = miaoshaService.miaosha(user, goodsVO);
+        //返回生成的订单
         model.addAttribute("orderInfo", orderInfo);
-        model.addAttribute("goods",goodsVO);
-        logger.info("goods:"+goodsVO+"\t"+"orderInfo:"+orderInfo);
+        //返回商品信息
+        model.addAttribute("goods", goodsVO);
+        logger.info("goods:" + goodsVO + "\t" + "orderInfo:" + orderInfo);
         return "order_detail";
     }
 }

@@ -2,9 +2,7 @@ package cn.huanhu.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 /**
@@ -19,7 +17,8 @@ import java.util.Date;
 @Table(name = "order_info",schema="book")
 public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 977453422231470551L;
-        
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id")
     private Long id;
    

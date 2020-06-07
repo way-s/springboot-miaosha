@@ -5,6 +5,8 @@ import cn.huanhu.entity.MiaoshaOrder;
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.entity.OrderInfo;
 import cn.huanhu.entity.vo.GoodsVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +21,11 @@ import java.util.Date;
  */
 @Service
 public class OrderService {
-
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
     @Resource
     private OrderDao orderDao;
 
-    public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(Long userId, long goodsId) {
+    public OrderInfo getMiaoshaOrderByUserIdGoodsId(Long userId, long goodsId) {
         return orderDao.getMiaoshaOrderByUserIdGoodsId(userId, goodsId);
     }
 
@@ -33,19 +35,21 @@ public class OrderService {
         orderInfo.setCreateDate(new Date());
         orderInfo.setDeliveryAddrId(0L);
         orderInfo.setGoodsCount(1);
+        orderInfo.setUserId(user.getId());
         orderInfo.setGoodsId(goodsVO.getId());
         orderInfo.setGoodsName(goodsVO.getGoodsName());
         orderInfo.setGoodsPrice(goodsVO.getMiaoshaPrice());
         orderInfo.setOrderChannel(1);
         orderInfo.setStatus(0);
+        // 插入秒杀订单详细信息 返回订单id
         long orderId = orderDao.insert(orderInfo);
-
+        logger.info("orderInfo:"+orderInfo.toString());
         MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
         miaoshaOrder.setGoodsId(goodsVO.getId());
         miaoshaOrder.setUserId(user.getId());
-        miaoshaOrder.setOrderId(orderInfo.getId());
+        miaoshaOrder.setOrderId(orderId);
+        // 插入秒杀的商品表
         orderDao.insertMiaoshaOrder(miaoshaOrder);
-
         return orderInfo;
     }
 }

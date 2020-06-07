@@ -27,4 +27,11 @@ public interface MiaoshaUserDao {
      * @return int
      */
     int insert(MiaoshaUser user);
+
+    /**
+     * 更新密码
+     * @param toBeUpdate
+     * @return
+     */
+    int update(MiaoshaUser toBeUpdate);
 }

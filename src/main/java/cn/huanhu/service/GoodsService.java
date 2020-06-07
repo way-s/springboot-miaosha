@@ -5,9 +5,9 @@ import cn.huanhu.entity.MiaoshaGoods;
 import cn.huanhu.entity.vo.GoodsVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,15 +21,15 @@ public class GoodsService {
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsService.class);
 
-    @Autowired
+    @Resource
     private GoodsDao goodsDao;
 
     public List<GoodsVO> listGoodsVo() {
         return goodsDao.listGoodsVo();
     }
 
-    public GoodsVO getGoodsVoByGoodsId(long id) {
-        return goodsDao.getGoodsVoByGoodsId(id);
+    public GoodsVO getGoodsVoByGoodsId(long goodsId) {
+        return goodsDao.getGoodsVoByGoodsId(goodsId);
     }
 
     public void reduceStock(GoodsVO goodsVO) {

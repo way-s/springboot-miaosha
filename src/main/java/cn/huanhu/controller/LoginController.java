@@ -4,6 +4,10 @@ import cn.huanhu.config.exception.GlobalException;
 import cn.huanhu.entity.vo.LoginVo;
 import cn.huanhu.service.MiaoshaUserService;
 import cn.huanhu.utils.result.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,7 @@ import javax.validation.Valid;
  * @date 2020/5/13
  */
 @CrossOrigin
+@Api(value = "登录接口")
 @Controller
 @RequestMapping(value = "login/")
 public class LoginController {
@@ -32,6 +37,11 @@ public class LoginController {
     @Resource
     private MiaoshaUserService miaoshaUserService;
 
+    /**
+     *
+     * @return login.html登录页
+     */
+    @ApiOperation(httpMethod = "POST",value = "login.html")
     @RequestMapping("toLogin")
     public String toLoginPage(){
         return "login";
@@ -39,18 +49,24 @@ public class LoginController {
 
     /**
      * 注册
-     * @param id
-     * @param password
-     * @param nickname
+     * @param id 手机号
+     * @param password 密码
+     * @param nickname 昵称
      * @return
      * @throws GlobalException
      */
+    @ApiOperation(httpMethod = "POST",value = "注册")
+    @ApiImplicitParams ({
+            @ApiImplicitParam( name = "id",value = "手机号",required = true ,dataType = "String"),
+            @ApiImplicitParam( name = "password",value = "密码",required = true ,dataType = "String"),
+            @ApiImplicitParam( name = "nickname",value = "昵称",required = true ,dataType = "String")
+    })
     @RequestMapping(value = "doRegister")
     @ResponseBody
-    public Result<String> doRegister(@RequestParam String id,@RequestParam String password,@RequestParam String nickname) throws GlobalException {
+    public Result<Object> doRegister(@RequestParam String id,@RequestParam String password,@RequestParam String nickname) throws GlobalException {
         logger.info(password+"\t"+id+"\t"+nickname);
         //注册
-        String result = miaoshaUserService.doRegister(id,password,nickname);
+        Object result = miaoshaUserService.doRegister(id,password,nickname);
         return Result.success(result);
     }
 
@@ -61,6 +77,11 @@ public class LoginController {
      * @return
      * @throws GlobalException
      */
+    @ApiOperation(httpMethod = "POST",value = "密码登录")
+    @ApiImplicitParams ({
+            @ApiImplicitParam( name = "mobile",value = "手机号",required = true ,dataType = "String"),
+            @ApiImplicitParam( name = "password",value = "密码",required = true ,dataType = "String")
+    })
     @RequestMapping(value = "doLogin")
     @ResponseBody
     public Result<String> doLogin(HttpServletResponse response, @Valid LoginVo loginVo) throws GlobalException {
@@ -75,11 +96,13 @@ public class LoginController {
      * 发送验证码
      * @param mobile 手机号
      */
+    @ApiOperation(httpMethod = "POST",value = "发送验证码")
+    @ApiImplicitParam( name = "mobile",value = "手机号",required = true ,dataType = "String")
     @RequestMapping(value = "doSendC")
     @ResponseBody
-    public Result<String> sendPhoneMsg(@RequestParam(value = "mobile") String mobile) throws GlobalException {
-//        登录
-        String code = miaoshaUserService.doSendVerCode(mobile);
+    public Result<Boolean> sendPhoneMsg(@RequestParam(value = "mobile") String mobile) throws GlobalException {
+//        发送验证码
+        Boolean code = miaoshaUserService.doSendVerCode(mobile);
         return Result.success(code);
     }
 
@@ -87,6 +110,11 @@ public class LoginController {
      * 校验验证码
      * @param loginVo 手机号 验证码
      */
+    @ApiOperation(httpMethod = "POST",value = "校验验证码")
+    @ApiImplicitParams ({
+            @ApiImplicitParam( name = "mobile",value = "手机号",required = true ,dataType = "String"),
+            @ApiImplicitParam( name = "password",value = "密码",required = true ,dataType = "String")
+    })
     @RequestMapping(value = "do/check")
     @ResponseBody
     public Result<String> checkCode(HttpServletResponse response, @Valid LoginVo loginVo) throws GlobalException {

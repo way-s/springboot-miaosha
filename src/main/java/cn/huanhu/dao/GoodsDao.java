@@ -34,10 +34,10 @@ public interface GoodsDao {
 
     /**
      * 根据商品id查询 商品
-     * @param id
+     * @param goodsId
      * @return GoodsVO
      */
-    GoodsVO getGoodsVoByGoodsId(@Param("id") long id);
+    GoodsVO getGoodsVoByGoodsId(@Param("goodsId") long goodsId);
 
     /**
      * 减库存并更新库存

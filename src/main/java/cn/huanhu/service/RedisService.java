@@ -155,6 +155,7 @@ public class RedisService {
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
+            //真正的key
             String realKey = keyPrefix.getPrefix() + key;
             if (deNumber < 1L){
                 return jedis.decr(realKey);

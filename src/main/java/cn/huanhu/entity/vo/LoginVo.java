@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * @author m
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * @date 2020/5/13
  */
 @Data
-public class LoginVo {
+public class LoginVo implements Serializable {
 
     @NotNull
     @IsMobile

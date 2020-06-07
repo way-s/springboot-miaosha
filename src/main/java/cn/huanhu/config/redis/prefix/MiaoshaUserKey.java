@@ -24,4 +24,6 @@ public class MiaoshaUserKey extends BasePrefix{
 
     public static MiaoshaUserKey verCode = new MiaoshaUserKey(CODE_EXPIRE,"VC");
 
+    public static MiaoshaUserKey getById = new MiaoshaUserKey(0,"id");
+
 }

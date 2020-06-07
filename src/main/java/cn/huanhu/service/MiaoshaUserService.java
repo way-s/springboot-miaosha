@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import static cn.huanhu.utils.SendSms.sendMsg;
+import static cn.huanhu.utils.GenerateCode.produceVerCode;
 
 /**
  * @author m
@@ -38,17 +38,46 @@ public class MiaoshaUserService {
     private RedisService redisService;
 
     public MiaoshaUser getById(long id) {
-//        // 取缓存
-//        MiaoshaUser user = redisService.get(MiaoshaUserKey.token,String.valueOf(id),MiaoshaUser.class);
-//        if (user != null ){
-//            return user;
-//        }
-//        // 缓存没有则取数据库，并缓存
-//        user = miaoshaUserDao.getById(id);
-//        if (user != null ){
-//            redisService.set(MiaoshaUserKey.token, String.valueOf(id), user);
-//        }
-        return miaoshaUserDao.getById(id);
+        // 取缓存
+        MiaoshaUser user = redisService.get(MiaoshaUserKey.getById,""+id,MiaoshaUser.class);
+        if (user != null ){
+            return user;
+        }
+        // 取数据库，并存入缓存
+        user = miaoshaUserDao.getById(id);
+        if (user != null ){
+            redisService.set(MiaoshaUserKey.getById,""+id, user);
+        }
+        return user;
+    }
+
+    /**
+     * 修改密码 更新数据库
+     * @param token
+     * @param id
+     * @param passwordNew
+     * @return
+     * @throws GlobalException
+     */
+    public boolean updatePassword(String token,long id,String passwordNew) throws GlobalException {
+        //取user
+        MiaoshaUser user = getById(id);
+        if(user == null){
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+        }
+        //更新的东西越多，产生的lock越多 修改哪个字段，就更新哪个字段
+        MiaoshaUser toBeUpdate = new MiaoshaUser();
+        toBeUpdate.setId(id);
+        toBeUpdate.setPassword(Md5Utils.formPassToDBPass(passwordNew,user.getSalt()));
+        int val = miaoshaUserDao.update(toBeUpdate);
+        if(val > 0){
+            //处理缓存 更新缓存
+            redisService.delete(MiaoshaUserKey.getById,""+id);
+            user.setPassword(toBeUpdate.getPassword());
+            redisService.set(MiaoshaUserKey.token,token,user);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -121,7 +150,7 @@ public class MiaoshaUserService {
      * @return token
      * @throws GlobalException 异常
      */
-    public String doRegister(String id,String password,String nickname) throws GlobalException {
+    public Object doRegister(String id,String password,String nickname) throws GlobalException {
         //判断手机号是否存在
         MiaoshaUser miaoshaUser = getById(Long.parseLong(id));
         if (miaoshaUser != null) {
@@ -138,7 +167,7 @@ public class MiaoshaUserService {
         logger.info(user.toString());
        int index = miaoshaUserDao.insert(user);
        if(index > 0){
-           return "200";
+           return true;
        }else {
            throw  new GlobalException(CodeMsg.REGISTER_ERROR);
        }
@@ -152,24 +181,23 @@ public class MiaoshaUserService {
      * @return token
      * @throws GlobalException 异常
      */
-    public String doSendVerCode(String mobile) throws GlobalException {
+    public Boolean doSendVerCode(String mobile) throws GlobalException {
 
         //获取用户信息
         MiaoshaUser miaoshaUser = getById(Long.parseLong(mobile));
         if (miaoshaUser == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        String verCode = UUIDUtils.uuid();
         //发送验证码
-        String vCode = sendMsg(mobile);
+//        String vCode = sendMsg(mobile);
+        String vCode = produceVerCode();
 //        if("0".equals(vCode)){
 //            throw new GlobalException(CodeMsg.SEND_MESSAGE_ERROR);
 //        }
-//        String vCode = produceVerCode();
         //存放验证码
         redisService.set(MiaoshaUserKey.verCode, mobile, vCode);
         logger.info("verCode:" + vCode);
-        return verCode;
+        return true;
     }
 
     /**
@@ -184,6 +212,7 @@ public class MiaoshaUserService {
         String mobile = loginVo.getMobile();
         //验证码
         String inputCode = loginVo.getPassword();
+        logger.info(loginVo.toString());
         //获取用户信息
         MiaoshaUser miaoshaUser = getById(Long.parseLong(mobile));
         //校验
@@ -191,12 +220,13 @@ public class MiaoshaUserService {
         if (!inputCode.equals(checkCode)) {
             throw new GlobalException(CodeMsg.NEW_CODE_ERROR);
         }
-//        redisService.set(MiaoshaUserKey.verCode,verCode,vCode);
+
         //生成cookie
         String token = UUIDUtils.uuid();
         addCookie(response, token, miaoshaUser);
+        logger.info("user"+miaoshaUser.toString());
         //删除redis中的验证码
-        redisService.delete(MiaoshaUserKey.verCode, mobile);
+        redisService.delete(MiaoshaUserKey.verCode,mobile);
         logger.info("生成cookie" + "\n" + response.getStatus() + "\t" + token + "\t" + miaoshaUser.getNickname());
         return token;
     }

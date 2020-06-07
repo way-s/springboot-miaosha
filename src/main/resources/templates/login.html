@@ -69,7 +69,7 @@
         g_showLoading("加载中...");
         const str = "" + g_passsword_salt.charAt(0) + g_passsword_salt.charAt(2) + inputPass + g_passsword_salt.charAt(5) + g_passsword_salt.charAt(4);
         const password = md5(str);
-        // alert("p:" + password + "\t" + "m:" + mobile);
+        alert("p:" + password + "\t" + "m:" + mobile);
         $.ajax({
             url: "/login/doLogin",
             type: "POST",

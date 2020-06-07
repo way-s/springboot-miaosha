@@ -15,7 +15,7 @@
         <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
         <result property="payDate" column="pay_date" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into order_info
         (user_id,goods_id,goods_name,goods_count,goods_price,order_channel,status,create_date)
         values(#{userId},#{goodsId},#{goodsName},#{goodsCount},#{goodsPrice},#{orderChannel},#{status},#{createDate})
