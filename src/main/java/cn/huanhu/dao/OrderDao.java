@@ -38,4 +38,11 @@ public interface OrderDao {
      * @return
      */
     int insertMiaoshaOrder(MiaoshaOrder miaoshaOrder);
+
+    /**
+     * 秒杀订单详细信息
+     * @param orderId
+     * @return
+     */
+    OrderInfo getOrderById(@Param("orderId") long orderId);
 }

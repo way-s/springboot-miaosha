@@ -8,7 +8,7 @@ package cn.huanhu.config.redis.prefix;
  */
 public class MiaoshaUserKey extends BasePrefix{
 
-    private static final int TOKEN_EXPIRE = (3600 * 24 * 2);
+    private static final int TOKEN_EXPIRE = (1800);
 
     private static final int CODE_EXPIRE = (60);
 

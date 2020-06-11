@@ -168,7 +168,7 @@ public class GoodsController {
             HttpServletRequest request, HttpServletResponse response,
             Model model, MiaoshaUser user,
             @PathVariable("goodsId") long goodsId) {
-
+        //根据商品id拿到商品信息
         GoodsVO goodsVO = goodsService.getGoodsVoByGoodsId(goodsId);
         logger.info("-------goodsVO:" + goodsVO);
         //开始 结束 时间
