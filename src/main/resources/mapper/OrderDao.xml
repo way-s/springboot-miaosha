@@ -26,10 +26,15 @@
     </insert>
 
     <!--查询单个-->
-    <select id="getMiaoshaOrderByUserIdGoodsId" resultMap="OrderInfoMap">
+    <select id="getMiaoshaOrderByUserIdGoodsId" resultType="cn.huanhu.entity.MiaoshaOrder">
     select *
-    from order_info
+    from miaosha_order
     where user_id = #{userId} and goods_id = #{goodsId}
+    </select>
+    <select id="getOrderById" resultType="cn.huanhu.entity.OrderInfo">
+        select *
+        from order_info
+        where id = #{orderId}
     </select>
 
 

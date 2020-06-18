@@ -44,11 +44,12 @@
                 <span id="miaoshaTip"></span>
             </td>
             <td>
-<!--                <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">-->
-<!--                    <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>-->
-<!--                    <input type="hidden" name="goodsId" id="goodsId"/>-->
-<!--                </form>-->
-                <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doMiaosha()">立即秒杀</button>
+                <!--                <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">-->
+                <!--                    <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>-->
+                <!--                    <input type="hidden" name="goodsId" id="goodsId"/>-->
+                <!--                </form>-->
+                <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doMiaosha()">立即秒杀
+                </button>
                 <input type="hidden" name="goodsId" id="goodsId"/>
             </td>
         </tr>
@@ -67,9 +68,68 @@
     </table>
 </div>
 <script>
-    function doMiaosha(){
+    function getMiaoshaResult(goodsId) {
+        g_showLoading();
+        $.ajax({
+            url: "/miaosha/result",
+            type: "POST",
+            data: {
+                goodsId: goodsId
+            },
+            success: function (data) {
+                if (data.code === 0) {
+                    const result = data.data;
+                    if (result < 0) {
+                        layer.msg("秒杀失败")
+                    } else if (result === 0) {//继续轮询
+                        setTimeout(function(){
+                            getMiaoshaResult(goodsId);
+                        }, 50);//单位 毫秒
+                    } else {
+                        layer.confirm("恭喜你，秒杀成功 ! 查看订单 ?", {btn: ["确认", "取消"]},
+                            function () {
+                                // window.location.href = "/order_detail.htm?orderId=" + result;
+                            },
+                            function () {
+                                layer.closeAll();
+                            }
+                        );
+                    }
+                } else {
+                    layer.msg(data.msg());
+                }
+            },
+            error: function () {
+                layer.msg("客户端请求有误")
+            }
 
+        })
     }
+
+    function doMiaosha() {
+        const goodsId = $("#goodsId").val();
+        $.ajax({
+            url: "/miaosha/do_miaosha",
+            type: "POST",
+            data: {
+                goodsId: goodsId
+            },
+            success: function (data) {
+                if (data.code === 0) {
+                    // window.location.href="/order_detail.htm?orderId="+data.data.id;
+                    // getMiaoshaResult($("#goodsId").val());
+                    getMiaoshaResult(goodsId);
+                } else {
+                    layer.msg(data.msg());
+                }
+            },
+            error: function () {
+                layer.msg("客户端请求有误")
+            }
+
+        })
+    }
+
     $(function () {
         // countDown();
         getDetail();
@@ -90,7 +150,7 @@
                     layer.msg(data.msg());
                 }
             },
-            error: function (data) {
+            error: function () {
                 layer.msg("客户端请求有误")
             }
 
