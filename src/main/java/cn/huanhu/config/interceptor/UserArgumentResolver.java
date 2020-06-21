@@ -33,6 +33,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     /**
      * 判断获取参数类型
+     *
      * @param methodParameter 方法参数
      * @return true ： false
      */
@@ -49,32 +50,33 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
         String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
-        String cookieToken = getCookieValue(request,MiaoshaUserService.COOKIE_NAME_TOKEN);
+        String cookieToken = getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
 
-        if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
+        if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
 //            logger.info("cookieToken:"+cookieToken+"\t"+"paramToken:"+paramToken);
             return null;
         }
-        String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+        String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;
 //        logger.info("token:"+token+"\n"+"cookieToken:"+cookieToken+"\t"+"paramToken:"+paramToken);
-        return userService.getByToken(response,token);
+        return userService.getByToken(response, token);
 
     }
 
     /**
-     *  获取cookie中的token值
+     * 获取cookie中的token值
+     *
      * @param request
      * @param cookieNameToken
      * @return string
      */
     private String getCookieValue(HttpServletRequest request, String cookieNameToken) {
         Cookie[] cookies = request.getCookies();
-        if(cookies == null || cookies.length <= 0){
-            logger.info("getCookieValue");
+        if (cookies == null || cookies.length <= 0) {
+//            logger.info("getCookieValue");
             return null;
         }
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals(cookieNameToken)){
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookieNameToken)) {
                 return cookie.getValue();
             }
         }

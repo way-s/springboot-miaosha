@@ -62,6 +62,7 @@ public class GoodsController {
      * @param user
      * @return .process()方法中ctx所在参数所需要的类型为接口IContext 需要有实现IContext的类就可以了
      * 在thymeleaf.spring5的API中把大部分的功能移到了IWebContext下面,用来区分边界。剔除了ApplicationContext 过多的依赖
+     * WebContext的Web环境上下文封装类 获取和使用Request、Response、Session等Web容器对象
      */
     @ApiOperation(httpMethod = "POST", value = "商品列表", notes = "查询所有商品")
     @ApiImplicitParams({

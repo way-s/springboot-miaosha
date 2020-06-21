@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class GoodsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(GoodsService.class);
+    private static final Logger log = LoggerFactory.getLogger(GoodsService.class);
 
     @Resource
     private GoodsDao goodsDao;
@@ -32,9 +32,15 @@ public class GoodsService {
         return goodsDao.getGoodsVoByGoodsId(goodsId);
     }
 
-    public void reduceStock(GoodsVO goodsVO) {
+    /**
+     * 减库存
+     * @param goodsVO
+     */
+    public boolean reduceStock(GoodsVO goodsVO) {
         MiaoshaGoods goods = new MiaoshaGoods();
         goods.setGoodsId(goodsVO.getId());
-        goodsDao.reduceStock(goods);
+        int stock = goodsDao.reduceStock(goods);
+        log.info("减库存："+stock);
+        return stock >= 0;
     }
 }

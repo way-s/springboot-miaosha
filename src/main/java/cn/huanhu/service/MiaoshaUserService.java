@@ -91,7 +91,7 @@ public class MiaoshaUserService {
         MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
         //延长有效期
         if (user != null) {
-            logger.info("getByTokenAddCookie");
+//            logger.info("getByTokenAddCookie");
             addCookie(response, token, user);
         }
         return user;
@@ -127,7 +127,7 @@ public class MiaoshaUserService {
         String token = UUIDUtils.uuid();
         addCookie(response, token, miaoshaUser);
 
-        logger.info("生成cookie" + "\t" + token + "\t" + miaoshaUser.getNickname());
+//        logger.info("生成cookie" + "\t" + token + "\t" + miaoshaUser.getNickname());
         return token;
     }
 
@@ -137,7 +137,7 @@ public class MiaoshaUserService {
         cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);
-        logger.info("addCookie:->" + "token:" + token + "\t" + "cookie：" + cookie.getMaxAge());
+//        logger.info("addCookie:->" + "token:" + token + "\t" + "cookie：" + cookie.getMaxAge());
 
     }
 
@@ -164,7 +164,7 @@ public class MiaoshaUserService {
         user.setPassword(calcPass);
         user.setNickname(nickname);
         user.setSalt(Md5Utils.salt);
-        logger.info(user.toString());
+//        logger.info(user.toString());
        int index = miaoshaUserDao.insert(user);
        if(index > 0){
            return true;

@@ -128,18 +128,13 @@ public class RedisService {
      * @param <T>  t
      * @return
      */
-    public <T> Long incr(KeyPrefix keyPrefix,String key,long addNumber){
+    public <T> Long incr(KeyPrefix keyPrefix,String key){
         Jedis jedis = null;
-        try{
-            jedis = jedisPool.getResource();
-            String realKey = keyPrefix.getPrefix() + key;
-            if (addNumber < 1L){
-                return jedis.incr(realKey);
-            }
-            return jedis.incrBy(realKey,addNumber);
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0L;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = keyPrefix.getPrefix() + key;
+            return  jedis.incr(realKey);
         }finally {
             returnJedis(jedis);
         }
@@ -151,19 +146,13 @@ public class RedisService {
      * @param <T> t
      * @return
      */
-    public <T> Long decrBy(KeyPrefix keyPrefix,String key,long deNumber){
+    public <T> Long decrBy(KeyPrefix keyPrefix,String key){
         Jedis jedis = null;
-        try{
-            jedis = jedisPool.getResource();
-            //真正的key
-            String realKey = keyPrefix.getPrefix() + key;
-            if (deNumber < 1L){
-                return jedis.decr(realKey);
-            }
-            return jedis.decrBy(realKey,deNumber);
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0L;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = keyPrefix.getPrefix() + key;
+            return  jedis.decr(realKey);
         }finally {
             returnJedis(jedis);
         }
@@ -183,7 +172,7 @@ public class RedisService {
      * 字符串转化为Bean对象
      */
     public static  <T> T stringToBean(String str, Class<T> clazz){
-        if (StringUtils.isEmpty(str) || clazz == null ){
+        if (StringUtils.isEmpty(str) || str.length() <= 0 || clazz == null ){
             return null;
         }
         if (clazz == int.class || clazz == Integer.class){

@@ -38,9 +38,9 @@ public class OrderService {
      * @param goodsId
      * @return
      */
-    public OrderInfo getMiaoshaOrderByUserIdGoodsId(Long userId, long goodsId) {
+    public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(Long userId, long goodsId) {
 //        return orderDao.getMiaoshaOrderByUserIdGoodsId(userId, goodsId);
-        return redisService.get(OrderKey.orderKey, "_" + goodsId, OrderInfo.class);
+        return redisService.get(OrderKey.orderKey, ""+userId+"_" + goodsId, MiaoshaOrder.class);
     }
 
     /**
@@ -71,12 +71,13 @@ public class OrderService {
         orderInfo.setOrderChannel(1);
         orderInfo.setStatus(0);
         // 插入秒杀订单详细信息 返回订单id
-        long orderId = orderDao.insert(orderInfo);
+        orderDao.insert(orderInfo);
+
         logger.info("orderInfo:" + orderInfo.toString());
         MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
         miaoshaOrder.setGoodsId(goodsVO.getId());
         miaoshaOrder.setUserId(user.getId());
-        miaoshaOrder.setOrderId(orderId);
+        miaoshaOrder.setOrderId(orderInfo.getId());
         // 插入秒杀的商品表
         orderDao.insertMiaoshaOrder(miaoshaOrder);
         //将订单数据放入缓存

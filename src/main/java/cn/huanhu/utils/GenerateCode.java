@@ -20,6 +20,4 @@ public class GenerateCode {
         }
         return new String(verCode );
     }
-
-    
 }

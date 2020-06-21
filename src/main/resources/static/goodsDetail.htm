@@ -74,7 +74,7 @@
             url: "/miaosha/result",
             type: "POST",
             data: {
-                goodsId: goodsId
+                goodsId:goodsId,
             },
             success: function (data) {
                 if (data.code === 0) {
@@ -82,13 +82,14 @@
                     if (result < 0) {
                         layer.msg("秒杀失败")
                     } else if (result === 0) {//继续轮询
-                        setTimeout(function(){
+                        layer.msg("排队中");
+                        setTimeout(function () {
                             getMiaoshaResult(goodsId);
                         }, 50);//单位 毫秒
                     } else {
                         layer.confirm("恭喜你，秒杀成功 ! 查看订单 ?", {btn: ["确认", "取消"]},
                             function () {
-                                // window.location.href = "/order_detail.htm?orderId=" + result;
+                                window.location.href = "/order_detail.htm?orderId=" + result;
                             },
                             function () {
                                 layer.closeAll();
@@ -96,7 +97,7 @@
                         );
                     }
                 } else {
-                    layer.msg(data.msg());
+                    layer.msg(data.msg);
                 }
             },
             error: function () {
@@ -120,7 +121,7 @@
                     // getMiaoshaResult($("#goodsId").val());
                     getMiaoshaResult(goodsId);
                 } else {
-                    layer.msg(data.msg());
+                    layer.msg(data.msg);
                 }
             },
             error: function () {
@@ -133,7 +134,7 @@
     $(function () {
         // countDown();
         getDetail();
-    })
+    });
 
     function getDetail() {
         //获取url参数
@@ -147,7 +148,7 @@
                     //渲染页面
                     render(data.data);
                 } else {
-                    layer.msg(data.msg());
+                    layer.msg(data.msg);
                 }
             },
             error: function () {
@@ -170,16 +171,14 @@
             $("#userTip").hide();
         }
         //填充页面数据
-        if (goods) {
-            $("#goodsName").text(goods.goodsName);
-            $("#goodsImg").attr("src", goods.goodsImg);
-            $("#startTime").text(new Date(goods.startDate).format("yyyy-MM-dd hh:mm:ss"));
-            $("#remainSeconds").val(remainSeconds);
-            $("#goodsId").val(goods.id);
-            $("#goodsPrice").text(goods.goodsPrice + "元");
-            $("#miaoshaPrice").text(goods.miaoshaPrice + "元");
-            $("#stockCount").text(goods.stockCount);
-        }
+        $("#goodsName").text(goods.goodsName);
+        $("#goodsImg").attr("src", goods.goodsImg);
+        $("#startTime").text(new Date(goods.startDate).format("yyyy-MM-dd hh:mm:ss"));
+        $("#remainSeconds").val(remainSeconds);
+        $("#goodsId").val(goods.id);
+        $("#goodsPrice").text(goods.goodsPrice + "元");
+        $("#miaoshaPrice").text(goods.miaoshaPrice + "元");
+        $("#stockCount").text(goods.stockCount);
         countDown();
     }
 

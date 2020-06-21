@@ -20,7 +20,7 @@ public interface OrderDao {
      * @param goodsId 商品id
      * @return 订单信息
      */
-    OrderInfo getMiaoshaOrderByUserIdGoodsId(@Param("userId")long userId,@Param("goodsId") long goodsId);
+    MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(@Param("userId")long userId,@Param("goodsId") long goodsId);
 
     /**
      * 插入订单信息

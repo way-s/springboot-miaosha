@@ -17,7 +17,7 @@ import static cn.huanhu.utils.GenerateCode.produceVerCode;
  * @author m
  * @className SendSms
  * @description SMS
- * @date 2020/5/27
+ * @date 2020/5/9
  */
 public class SendSms {
 
@@ -25,8 +25,8 @@ public class SendSms {
 
     public static String sendMsg(String phoneCode) {
         String codeId = produceVerCode();
-        String accessKeyId = "XXXXXXXXXXX";
-        String accessSecret = "XXXXXXXXXXX;
+        String accessKeyId = "xxxxxxxxxxxxxxxx";
+        String accessSecret = "xxxxxxxxxxxxxxxx";
 
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessSecret);
         IAcsClient client = new DefaultAcsClient(profile);
@@ -43,9 +43,11 @@ public class SendSms {
         request.putQueryParameter("TemplateParam", "{code:" + codeId + "}");
         try {
             CommonResponse response = client.getCommonResponse(request);
+            logger.info(response.getData());
 
         } catch (ClientException e) {
             e.printStackTrace();
+            return "0";
         }
         return codeId;
     }

@@ -3,6 +3,7 @@ package cn.huanhu.controller;
 import cn.huanhu.config.redis.prefix.UserKey;
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.entity.User;
+import cn.huanhu.service.MQSender;
 import cn.huanhu.service.RedisService;
 import cn.huanhu.service.UserService;
 import cn.huanhu.utils.result.Result;
@@ -33,6 +34,9 @@ public class UserController {
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private MQSender sender;
 
     /**
      *
@@ -94,4 +98,24 @@ public class UserController {
         return Result.success(user);
     }
 
+    @RequestMapping("mq")
+    @ResponseBody
+    public Result<String> mq(){
+        sender.send("test mq");
+        return Result.success("mq");
+    }
+
+    @RequestMapping("mq/fanout")
+    @ResponseBody
+    public Result<String> mqFanout(){
+        sender.sendFanout("test mq");
+        return Result.success("mq");
+    }
+
+    @RequestMapping("mq/header")
+    @ResponseBody
+    public Result<String> mqHeader(){
+        sender.sendHeader("test,mq");
+        return Result.success("mq");
+    }
 }

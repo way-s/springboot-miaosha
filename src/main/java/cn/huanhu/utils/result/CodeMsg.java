@@ -38,7 +38,7 @@ public class CodeMsg {
 
     //秒杀模块 5005XX
     public static CodeMsg MIAOSHA_OVER = new CodeMsg(500501, "库存不足");
-    public static CodeMsg MIAOSHA_REPET = new CodeMsg(500502, "不能重复秒杀");
+    public static CodeMsg MIAOSHA_REPEAT = new CodeMsg(500502, "不能重复秒杀");
     public static CodeMsg MIAOSHA_FAIL = new CodeMsg(500503, "秒杀失败");
     public static CodeMsg IMAGE_ERROR = new CodeMsg(500504, "图片验证码不正确");
 

@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class LoginHandlerInterceptor implements HandlerInterceptor {
 
-    private static final Logger logger= LoggerFactory.getLogger(LoginHandlerInterceptor.class);
+    private static final Logger log= LoggerFactory.getLogger(LoginHandlerInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        HandlerMethod method = (HandlerMethod) handler;
-        logger.info("--"+request.getRequestURI().toString());
+//        log.info("--"+request.getRequestURI().toString());
 //        MiaoshaUser user = (MiaoshaUser)request.getSession().getAttribute("user");
 ////        Object user = request.getSession();
 //        if (user == null) {
