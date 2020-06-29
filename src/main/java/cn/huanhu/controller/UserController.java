@@ -3,7 +3,7 @@ package cn.huanhu.controller;
 import cn.huanhu.config.redis.prefix.UserKey;
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.entity.User;
-import cn.huanhu.service.MQSender;
+import cn.huanhu.service.MqSender;
 import cn.huanhu.service.RedisService;
 import cn.huanhu.service.UserService;
 import cn.huanhu.utils.result.Result;
@@ -36,7 +36,7 @@ public class UserController {
     private RedisService redisService;
 
     @Resource
-    private MQSender sender;
+    private MqSender sender;
 
     /**
      *

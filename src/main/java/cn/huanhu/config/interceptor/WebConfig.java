@@ -21,6 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     UserArgumentResolver userArgumentResolver;
 
+    @Autowired
+    AccessInterceptor accessInterceptor;
+
     /**
      *
      * @param argumentResolvers
@@ -41,10 +44,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        WebMvcConfigurer.super.addInterceptors(registry);
         //注册LoginHandlerInterceptor拦截器
-        registry.addInterceptor(new LoginHandlerInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/","/index.html","/login/toLogin","/js/**","/css/**",
-                        "/images/**","/bootstrap/**","/fonts/**","/img/**","/jquery-validation/**","/layer/**");
+        registry.addInterceptor(accessInterceptor);
     }
 
     /**

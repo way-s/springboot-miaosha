@@ -127,7 +127,6 @@ public class MiaoshaUserService {
         String token = UUIDUtils.uuid();
         addCookie(response, token, miaoshaUser);
 
-//        logger.info("生成cookie" + "\t" + token + "\t" + miaoshaUser.getNickname());
         return token;
     }
 

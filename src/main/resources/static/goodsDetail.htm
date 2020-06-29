@@ -48,8 +48,16 @@
                 <!--                    <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>-->
                 <!--                    <input type="hidden" name="goodsId" id="goodsId"/>-->
                 <!--                </form>-->
-                <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doMiaosha()">立即秒杀
-                </button>
+                <div class="row">
+                <div class="form-inline">
+                    <img id="verifyCodeImg" width="80" height="32" style="display: none"
+                         onclick="refreshVerifyCode()"/>
+                    <input id="verifyCode" class="form-control" style="display: none"/>
+                    <button class="btn btn-primary" type="button" id="buyButton"
+                            onclick="getMiaoshaPath()">立即秒杀
+                    </button>
+                </div>
+            </div>
                 <input type="hidden" name="goodsId" id="goodsId"/>
             </td>
         </tr>
@@ -68,6 +76,29 @@
     </table>
 </div>
 <script>
+    function getMiaoshaPath() {
+        const goodsId = $("#goodsId").val();
+        $.ajax({
+            url: "/miaosha/path",
+            type: "POST",
+            data: {
+                goodsId: goodsId,
+                verifyCode:$("#verifyCode").val()
+            },
+            success: function (data) {
+                if (data.code === 0) {
+                    const path = data.data;
+                    doMiaosha(path);
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.msg("客户端请求有误")
+            }
+        })
+    }
+
     function getMiaoshaResult(goodsId) {
         g_showLoading();
         $.ajax({
@@ -85,7 +116,7 @@
                         layer.msg("排队中");
                         setTimeout(function () {
                             getMiaoshaResult(goodsId);
-                        }, 50);//单位 毫秒
+                        }, 200);//单位 毫秒
                     } else {
                         layer.confirm("恭喜你，秒杀成功 ! 查看订单 ?", {btn: ["确认", "取消"]},
                             function () {
@@ -107,10 +138,10 @@
         })
     }
 
-    function doMiaosha() {
+    function doMiaosha(path) {
         const goodsId = $("#goodsId").val();
         $.ajax({
-            url: "/miaosha/do_miaosha",
+            url: "/miaosha/"+path+"/do_miaosha",
             type: "POST",
             data: {
                 goodsId: goodsId
@@ -201,11 +232,17 @@
                 clearTimeout(timeout);
             }
             $("#miaoshaTip").html("秒杀进行中");
+            $("#verifyCodeImg").attr("src","/miaosha/verifyCode?goodsId="+$("#goodsId").val());
+            $("#verifyCodeImg").show();
+            $("#verifyCode").show();
             //秒杀已经结束
         } else {
             $("#buyButton").attr("disabled", true);
             $("#miaoshaTip").html("秒杀已经结束");
         }
+    }
+    function refreshVerifyCode() {
+        $("#verifyCodeImg").attr("src","/miaosha/verifyCode?goodsId="+$("#goodsId").val()+"&timestamp="+new Date().getTime());
     }
 </script>
 </body>

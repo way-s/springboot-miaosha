@@ -13,10 +13,10 @@ public class CodeMsg {
     //通用异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
 
-    public static CodeMsg REQUEST_ILLEGLE = new CodeMsg(500103, "请求异常");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
-    public static CodeMsg VALIDATION_ERROR = new CodeMsg(500101, "参数校验异常：%s");
-    public static CodeMsg GLOBAL_ERROR = new CodeMsg(500102, "全局异常：%s");
+    public static CodeMsg VALIDATION_ERROR = new CodeMsg(500101, "参数校验异常");
+    public static CodeMsg REQUEST_ILLEGLE = new CodeMsg(500102, "请求异常");
+    public static CodeMsg ACCESS_LIMIT_REACH = new CodeMsg(500103, "访问太频繁");
     //登录模块 5002XX
     public static CodeMsg SESSION_ERROR = new CodeMsg(500201, "session不存在或失效，请重新登录");
     public static CodeMsg PASSWPRD_EMPTY = new CodeMsg(500202, "密码不能为空");

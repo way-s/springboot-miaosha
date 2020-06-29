@@ -1,6 +1,7 @@
 package cn.huanhu.service;
 
-import cn.huanhu.config.rabbitmq.MQConfig;
+
+import cn.huanhu.config.rabbitmq.MqConfig;
 import cn.huanhu.entity.vo.MiaoshaMessaage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,9 @@ import org.springframework.stereotype.Service;
  * @date 2020/6/16
  */
 @Service
-public class MQSender {
+public class MqSender {
 
-    private static final Logger log = LoggerFactory.getLogger(MQSender.class);
+    private static final Logger log = LoggerFactory.getLogger(MqSender.class);
 
     @Autowired
     private AmqpTemplate amqpTemplate;
@@ -27,7 +28,7 @@ public class MQSender {
     public void sendMiaoshaMessage(MiaoshaMessaage mm) {
         String msg = RedisService.beanToString(mm);
         log.info("send message"+msg);
-        amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE,msg);
+        amqpTemplate.convertAndSend(MqConfig.MIAOSHA_QUEUE,msg);
     }
 
 
@@ -37,22 +38,22 @@ public class MQSender {
     public void send(Object message){
         String msg = RedisService.beanToString(message);
         log.info("send message"+msg);
-        amqpTemplate.convertAndSend(MQConfig.QUEUE,msg);
+        amqpTemplate.convertAndSend(MqConfig.QUEUE,msg);
 
     }
 
     public void sendTopic(Object message){
         String msg = RedisService.beanToString(message);
         log.info("send topic message:"+msg);
-        amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE,"topic.key1",msg+"1");
-        amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE,"topic.key2",msg+"2");
+        amqpTemplate.convertAndSend(MqConfig.TOPIC_EXCHANGE,"topic.key1",msg+"1");
+        amqpTemplate.convertAndSend(MqConfig.TOPIC_EXCHANGE,"topic.key2",msg+"2");
     }
 
     public void sendFanout(Object message){
         String msg = RedisService.beanToString(message);
         log.info("send fanout message:"+msg);
-        amqpTemplate.convertAndSend(MQConfig.FANOUT_EXCHANGE,"topic.key1",msg+"1");
-        amqpTemplate.convertAndSend(MQConfig.FANOUT_EXCHANGE,"topic.key2",msg+"2");
+        amqpTemplate.convertAndSend(MqConfig.FANOUT_EXCHANGE,"topic.key1",msg+"1");
+        amqpTemplate.convertAndSend(MqConfig.FANOUT_EXCHANGE,"topic.key2",msg+"2");
     }
 
     public void sendHeader(Object message){
@@ -62,7 +63,7 @@ public class MQSender {
         properties.setHeader("header1","v1");
         properties.setHeader("header2","v2");
         Message obj = new Message(msg.getBytes(),properties);
-        amqpTemplate.convertAndSend(MQConfig.HEADERS_EXCHANGE,"topic.key1",obj);
+        amqpTemplate.convertAndSend(MqConfig.HEADERS_EXCHANGE,"topic.key1",obj);
     }
 
 

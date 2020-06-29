@@ -15,7 +15,7 @@ import java.util.Map;
  * @date 2020/6/16
  */
 @Configuration
-public class MQConfig {
+public class MqConfig {
 
 
     /**
@@ -30,7 +30,15 @@ public class MQConfig {
      * Consumer:消息消费者,就是接受消息的程序.
      * Channel:消息通道,在客户端的每个连接里,可建立多个channel.
      *
+     * TODO Rabbitmq 四种交换机模式
+     * 1.Direct 直连模式
+     * 2.Topic 主题模式
+     * 3.Fanout 队列模式
+     * 4.Header 消息头模式
+     *
+     * 交换机 主要是接收消息并且转发到绑定的队列
      */
+
     public static final String MIAOSHA_QUEUE = "miaosha.queue";
 
     public static final String QUEUE = "queue";
@@ -50,9 +58,7 @@ public class MQConfig {
 
 
 
-    /**
-     * Direct 模式 交换机Exchange
-     */
+
     @Bean
     public Queue queue(){
         return new Queue(QUEUE,true);

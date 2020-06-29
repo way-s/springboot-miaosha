@@ -1,6 +1,6 @@
 package cn.huanhu.service;
 
-import cn.huanhu.config.rabbitmq.MQConfig;
+import cn.huanhu.config.rabbitmq.MqConfig;
 import cn.huanhu.entity.MiaoshaOrder;
 import cn.huanhu.entity.MiaoshaUser;
 import cn.huanhu.entity.vo.GoodsVO;
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
  * @date 2020/6/16
  */
 @Service
-public class MQReceiver {
+public class MqReceiver {
 
-    private static final Logger log = LoggerFactory.getLogger(MQReceiver.class);
+    private static final Logger log = LoggerFactory.getLogger(MqReceiver.class);
 
     @Autowired
     private RedisService redisService;
@@ -35,7 +35,7 @@ public class MQReceiver {
     private MiaoshaService miaoshaService;
 
 
-    @RabbitListener(queues = MQConfig.MIAOSHA_QUEUE)
+    @RabbitListener(queues = MqConfig.MIAOSHA_QUEUE)
     public void miaoshaReceive(String message) {
         log.info("receive message:" + message);
         MiaoshaMessaage mm = RedisService.stringToBean(message, MiaoshaMessaage.class);
@@ -57,27 +57,27 @@ public class MQReceiver {
             return;
         }
 
-        //减库存 下订单 写入秒杀订单
+        //减库存 生成订单 写入秒杀订单
         miaoshaService.miaosha(user, goodsVO);
     }
 
 
-    @RabbitListener(queues = MQConfig.QUEUE)
+    @RabbitListener(queues = MqConfig.QUEUE)
     public void receive(String message) {
         log.info("receive message:" + message);
     }
 
-    @RabbitListener(queues = MQConfig.TOPIC_QUEUE1)
+    @RabbitListener(queues = MqConfig.TOPIC_QUEUE1)
     public void receiveTopic1(String message) {
         log.info("receive topic1 message:" + message);
     }
 
-    @RabbitListener(queues = MQConfig.TOPIC_QUEUE2)
+    @RabbitListener(queues = MqConfig.TOPIC_QUEUE2)
     public void receiveTopic2(String message) {
         log.info("receive topic2 message:" + message);
     }
 
-    @RabbitListener(queues = MQConfig.HEADER_QUEUE)
+    @RabbitListener(queues = MqConfig.HEADER_QUEUE)
     public void receiveHeader(byte[] message) throws Exception {
         log.info("receive Header message:" + new String(message));
     }

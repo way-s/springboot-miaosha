@@ -1,5 +1,6 @@
 package cn.huanhu.controller;
 
+import cn.huanhu.config.access.AccessLimit;
 import cn.huanhu.config.redis.prefix.GoodsKey;
 import cn.huanhu.entity.MiaoshaOrder;
 import cn.huanhu.entity.MiaoshaUser;
@@ -17,11 +18,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +56,9 @@ public class MiaoshaController implements InitializingBean {
     private MiaoshaService miaoshaService;
 
     @Autowired
-    private MQSender mqSender;
+    private MqSender mqSender;
 
-    private Map<Long, Boolean> localOverMap = new HashMap<>();
+    private final Map<Long, Boolean> localOverMap = new HashMap<>();
 
     /**
      * 系统初始化，查询商品数量，加载到redis中
@@ -90,15 +93,20 @@ public class MiaoshaController implements InitializingBean {
      */
     @ApiOperation(httpMethod = "POST", value = "秒杀", notes = "立即秒杀")
     @ApiImplicitParam(name = "id", value = "商品id", required = true, dataType = "Long")
-    @RequestMapping(value = "do_miaosha", method = RequestMethod.POST)
+    @RequestMapping(value = "{path}/do_miaosha", method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> doSha(Model model, MiaoshaUser user,
-                                 @RequestParam("goodsId") long goodsId) {
+                                 @RequestParam("goodsId") long goodsId,
+                                 @PathVariable("path") String path) {
         model.addAttribute("user", user);
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
-
+        //验证path
+        boolean check = miaoshaService.checkPath(user,goodsId,path);
+        if(!check){
+            return Result.error(CodeMsg.REQUEST_ILLEGLE);
+        }
         //内存标记 减少redis访问
         boolean over = localOverMap.get(goodsId);
         if (over) {
@@ -146,7 +154,7 @@ public class MiaoshaController implements InitializingBean {
 //        model.addAttribute("orderInfo", orderInfo);
 //        //返回商品信息
 //        model.addAttribute("goods", goodsVO);
-        logger.info("goods:" + goodsVO + "\t" + "orderInfo:" + orderInfo);
+        log.info("goods:" + goodsVO + "\t" + "orderInfo:" + orderInfo);
         return Result.success(orderInfo);
 
          */
@@ -177,4 +185,61 @@ public class MiaoshaController implements InitializingBean {
         return Result.success(result);
     }
 
+    /**
+     * 获取秒杀路径
+     * @param model
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @AccessLimit(seconds = 5,maxCount = 5 ,needLogin = true)
+    @RequestMapping(value = "path", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<String> getMiaoShaPath(Model model, MiaoshaUser user,
+                                         HttpServletRequest request,
+                                         @RequestParam("goodsId") long goodsId,
+                                         @RequestParam("verifyCode") int verifyCode) {
+        model.addAttribute("user", user);
+        if (user == null) {
+            return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        //效验验证码
+        boolean check = miaoshaService.checkVerifyCode(user, goodsId,verifyCode);
+        if(!check){
+            return Result.error(CodeMsg.NEW_CODE_ERROR);
+        }
+        String path = miaoshaService.createMiaoshaPath(user, goodsId);
+        return Result.success(path);
+    }
+
+    /**
+     * 验证码
+     * @param response
+     * @param model
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @RequestMapping(value = "verifyCode", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<String> getVerifyCode(HttpServletResponse response ,
+                                        Model model, MiaoshaUser user,
+                                        @RequestParam("goodsId") long goodsId) {
+        model.addAttribute("user", user);
+        if (user == null) {
+            return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        try {
+            // 数据随 ImageIO.write(image,"JPEG",out) 出去了所以返回null
+            BufferedImage image = miaoshaService.createVerifyCode(user, goodsId);
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(image,"JPEG",out);
+            out.flush();
+            out.close();
+            return null;
+        }catch (Exception e){
+            log.info(e.getMessage());
+            return Result.error(CodeMsg.MIAOSHA_FAIL);
+        }
+    }
 }
